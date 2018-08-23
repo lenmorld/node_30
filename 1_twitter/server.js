@@ -16,17 +16,35 @@ var T = new Twit({
 // })
 
 
-var stream = T.stream('statuses/filter', { track: 'starbucks' })
+// var stream = T.stream('statuses/filter', { track: 'starbucks' })
+//
+// stream.on('tweet', function(tweet) {
+//   console.log("==================================")
+//   console.log(tweet.user.name, " : ", tweet.text, " [at] ", tweet.created_at)
+//   console.log("==================================")
+// })
+//
+// stream.on('error', function(error) {
+//   throw error;
+// });
 
-stream.on('tweet', function(tweet) {
-  console.log("==================================")
-  console.log(tweet.user.name, " : ", tweet.text, " [at] ", tweet.created_at)
-  console.log("==================================")
-})
+var tweet = {
+  status: "Hello world! - the Node script said"
+};
 
-stream.on('error', function(error) {
-  throw error;
-});
+
+function tweetFunction(err, data, response) {
+  if (err) {
+    console.log('wrong!');
+  } else {
+    console.log("workd!");
+  }
+}
+
+T.post('statuses/update', tweet, tweetFunction);
+
+
+
 
 /*
 //
