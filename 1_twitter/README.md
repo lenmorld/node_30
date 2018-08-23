@@ -7,3 +7,7 @@
 [ ] post a tweet based on another APIs data
 
 [ ] data analysis and visualization?
+
+[ ] count tweets: react vs angular, dog vs cat
+
+[ ] respond to tweets: love vs hate
