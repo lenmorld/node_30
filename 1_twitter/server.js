@@ -1,11 +1,17 @@
+require('dotenv').config()
+
 var Twit = require('twit')
 
+const timeout_ms = 60*1000  // optional HTTP request timeout to apply to all requests.
+
+console.log(process.env.consumer_key);
+
 var T = new Twit({
-  consumer_key:         'WtcppubjlkAoy1deo95aC6PvQ',
-  consumer_secret:      'Gh07IbePkmDjHeiSbIXpPJgZFCwgsHoAp2CUxIPwIzfGdw60kQ',
-  access_token:         '711664708756107264-hh3w4tPAsJPcEtitm2bBSD1rU8vCeWv',
-  access_token_secret:  'ISfZfc0q2dPuSAUN1Nx3M7XFTBAS0lXUbVq6NZfp52B2Z',
-  timeout_ms:           60*1000,  // optional HTTP request timeout to apply to all requests.
+  consumer_key:         process.env.consumer_key,
+  consumer_secret:      process.env.consumer_secret,
+  access_token:         process.env.access_token,
+  access_token_secret:  process.env.access_token_secret,
+  timeout_ms:           timeout_ms
 })
 
 // sample of public statuses
@@ -29,13 +35,13 @@ var T = new Twit({
 // });
 
 var tweet = {
-  status: "Hello world! - the Node script said"
+  status: "Well hey there!"
 };
 
 
 function tweetFunction(err, data, response) {
   if (err) {
-    console.log('wrong!');
+    console.log('wrong!', err);
   } else {
     console.log("workd!");
   }
