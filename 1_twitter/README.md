@@ -21,4 +21,6 @@
 
 
 ### Track certain keywords, then tweet saying thanks!
-![Post a tweet in reponse to someone](twitter_bot_1.png)
+![Post a tweet in reponse to someone](https://raw.githubusercontent.com/lenmorld/node_30/blob/1_twitter/1_twitter/twitter_bot_1.jpg)
+
+#### (https://raw.githubusercontent.com/lenmorld/node_30/blob/1_twitter/1_twitter/twitter_bot_1.jpg)
