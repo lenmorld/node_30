@@ -1,43 +1,54 @@
 require('dotenv').config()
 
+// https://github.com/ttezel/twit
 var Twit = require('twit')
+var config = require('./config.js')
 
-const timeout_ms = 60*1000  // optional HTTP request timeout to apply to all requests.
+var T = new Twit(config)
 
-console.log(process.env.consumer_key);
+var preview_keyword_limit = 255
 
-var T = new Twit({
-  consumer_key:         process.env.consumer_key,
-  consumer_secret:      process.env.consumer_secret,
-  access_token:         process.env.access_token,
-  access_token_secret:  process.env.access_token_secret,
-  timeout_ms:           timeout_ms
+// stream something
+var keywords = ['React.js', 'reactjs', 'react.js']
+var stream = T.stream('statuses/filter', { track: keywords })
+
+stream.on('tweet', function(tweet) {
+  console.log("==================================")
+  console.log(tweet.user.name, " : ", tweet.text, " [at] ", tweet.created_at)
+  console.log("==================================")
+
+  // tweet back to say thank you =)
+  var tweet_screen_name = tweet.user.screen_name;
+  var tweet_text = tweet.text;
+
+  // don't respond to your own response (Inception!)
+  if (process.env.current_user_name !== tweet_screen_name) {
+    var tweet = {
+      status: ["[node-bot]: Thanks for choosing #reactjs, @", tweet_screen_name,
+                " <- in response to -> ", tweet.user.name, " : ",  tweet.text.substr(0, preview_keyword_limit), "..."].join("")
+    };
+    T.post('statuses/update', tweet, tweetFunction);
+  }
 })
 
-// sample of public statuses
-// var stream = T.stream('statuses/sample')
-//
-// stream.on('tweet', function(tweet) {
-//   console.log(tweet)
-// })
+function tweetFunction(err, data, response) {
+  if (err) {
+    console.log('wrong!', err);
+  } else {
+    console.log("worked!");
+  }
+}
 
-
-// var stream = T.stream('statuses/filter', { track: 'starbucks' })
+// // a user stream
+// var stream = T.stream('user')
+// stream.on('follow', followed)
 //
-// stream.on('tweet', function(tweet) {
-//   console.log("==================================")
-//   console.log(tweet.user.name, " : ", tweet.text, " [at] ", tweet.created_at)
-//   console.log("==================================")
-// })
-//
-// stream.on('error', function(error) {
-//   throw error;
-// });
 
+// tweet something
+/*
 var tweet = {
   status: "Well hey there!"
 };
-
 
 function tweetFunction(err, data, response) {
   if (err) {
@@ -48,32 +59,4 @@ function tweetFunction(err, data, response) {
 }
 
 T.post('statuses/update', tweet, tweetFunction);
-
-
-
-
-/*
-//
-// filter the public stream by the latitude/longitude bounded box of San Francisco
-//
-var sanFrancisco = [ '-122.75', '36.8', '-121.75', '37.8' ]
-
-var stream = T.stream('statuses/filter', { locations: sanFrancisco })
-
-stream.on('tweet', function (tweet) {
-  console.log(tweet)
-})
-
-//
-// filter the public stream by english tweets containing `#apple`
-//
-var stream = T.stream('statuses/filter', { track: '#apple', language: 'en' })
-
-stream.on('tweet', function (tweet) {
-  console.log(tweet)
-})
-
 */
-
-// source: https://usamaejaz.com/twitter-streaming-api-nodejs/
-// https://www.nodejsera.com/get_tweets_using_nodejs.html
