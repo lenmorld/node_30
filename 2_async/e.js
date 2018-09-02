@@ -1,5 +1,4 @@
 // callbacks
-
 // Promise-chaining
 
 // sample delay - or can use setTimeout
@@ -11,26 +10,6 @@ const sleep = (milliseconds) => {
     }
   }
 }
-
-const fetchData = (callback) => {
-  const person = {
-    id: 20,
-    name: "Lenny",
-  };
-
-  // simulate 2seconds delay on a network
-  console.log("Fetching...");
-  sleep(3000);
-  callback(person);
-}
-
-/* solution 1 */
-// callback - called when data is available
-const callback = (object) => {
-  console.log("Your data is here: ", object);
-}
-
-// const data = fetchData(callback);
 
 // ################################################################
 /* solution 2 */
@@ -53,29 +32,54 @@ const fetchData2 = () => {
   });
 }
 
-fetchData2().then(results => {
-  console.log("Your data is here: ", results);
-});
+const fetchData3 = (param) => {
+  return new Promise((resolve, reject) => {
+    sleep(2000);
+    resolve("[3]" + param);
+  });
+};
 
-// console.log("Your data is here: ", fetchData2());
+// SCENARIO 1 ============================
 
+// chaining then()s after a Promise
+// straightforward since its kind of sync() after 1 async Promise
+
+// fetchData2().then(results => {
+//   console.log("Your data is here: ", results);
+//   return results;
+// }).then(results=> {
+//   console.log("Your data is here again: ", results);
+//   return results;
+// }).then(results=> {
+//   console.log("Your data is here again 3rd time: ", results);
+// });
+// ...
+
+// SCENARIO 2 ============================
+// chaining then()s with Promises
 /*
-NOTE:
-doing this logs the actual Promise itself
-console.log("Your data is here: ", fetchData2());
-
-and Promises can be chained = then().then()
+  normally, like the previous one,
+  a value returned by .then() is passed to the enxt handler
+  But if the value retuned is a Promise, the further execution
+  is suspended until it settles
+  After that (e.g. API call, setTimout, sleep), the result
+  of the promise is given to the next .then() handler
 */
 
+fetchData2().then(results => {
+  console.log("Your data is here: ", results);
+  console.log("Promisify-ing it...");
+  // return results;
 
-//========== SCRATCH section ================//
-
-// fetch('https://jsonplaceholder.typicode.com/users')
-//   .then(response => response.json())
-//   .then(json => console.log(json))
-
-// alternative
-
-// setTimeout(() => {
-//   callback(person);  // return data
-// }, 3000);
+  return new Promise((resolve, reject) => {
+    // a  Promise that resolves right away, just for example
+    // could put a sleep() or setTimeout here
+    resolve(results);
+  });
+}).then(results=> {
+  console.log("Your data is here again: ", results);
+  return results;
+}).then(results=> {
+  console.log("Your data is here again 3rd time: ", results);
+});
+// ...
