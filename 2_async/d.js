@@ -1,47 +1,5 @@
-
-// sample delay - or can use setTimeout
-const sleep = (milliseconds) => {
-  var start = new Date().getTime();
-  for (var i = 0; i < 1e7; i++) {
-    if ((new Date().getTime() - start) > milliseconds){
-      break;
-    }
-  }
-}
-
-const fetchData2 = (id) => {
-  const person = {
-    id: id,
-    name: "Person" + id,
-  };
-
-  // simulate 2seconds delay on a network with setTimeout
-  return new Promise((resolve, reject) => {
-    // simulate 2seconds delay on a network
-    console.log("Fetching...");
-    sleep(2000);
-    resolve(person);    // return response with resolve
-    // reject if there is any error
-  });
-}
-
-let peoples = [1,2,3];
-let results = [];
-
-// =============================================
-// solution 1: map() and Promise.all
-
-// const promises = peoples.map(p => {
-//     return new Promise((resolve, reject) => {
-//       fetchData2(p).then(result => {
-//         resolve(result);
-//       });
-//     })
-// });
-//
-// Promise.all(promises).then(results => {
-//   console.log(results);
-// });
+// Callbakcks
+// -> promise nesting 2
 
 function searchInFile(file, pattern) {
     // console.log("file, pattern: ", file, pattern);
@@ -72,30 +30,7 @@ function searchInFile(file, pattern) {
     });
 }
 
-
-// const promises = peoples.map(p => {
-//     return new Promise((resolve, reject) => {
-//       fetchData2(p).then(result => {
-//         resolve(result);
-//       });
-//     })
-// });
-//
-// Promise.all(promises).then(results => {
-//   console.log(results);
-// });
-
 var numCssClassesPattern = new RegExp(/(?<=in_reply).*/gm);
-
-
-//---> WORKS!
-// searchInFile('./some_file', numCssClassesPattern).then(result => {
-//   console.log(result);
-// });
-
-
-// COMPLEXer!
-// ---> WORKS 3 sets, given the number of items passed
 
 function getAllFiles() {
   return new Promise((resolve, reject) => {
@@ -121,7 +56,15 @@ function classesToFilesMap() {
   });
 }
 
+//---> WORKS! -> returns 1 set
+searchInFile('./some_file', numCssClassesPattern).then(result => {
+  console.log(result);
+});
 
+// COMPLEXer!
+// ---> WORKS 3 sets, given the number of items passed
+
+// WORKS! -> returns 3 sets(based on the arr length returned by getAllFiles() Promise )
 classesToFilesMap().then(r => {
   console.log(r);
 });
