@@ -1,15 +1,15 @@
 var express = require('express');
 var router = express.Router();
-
+var User = require('../models/user');
 
 // GET /
 router.get('/', function(req, res, next) {
-  console.log(req);
+  // console.log(req);
   return res.send("working");
 });
 
 router.get('/json', function(req, res, next) {
-  console.log(req);
+  // console.log(req);
   return res.send(JSON.stringify({
     name: "Lenny"
   }));
@@ -37,6 +37,8 @@ router.post('/', function(req, res, next) {
           password: req.body.password,
           passwordConf: req.body.passwordConf,
         }
+
+        console.log("user data", userData);
 
         // schema.create to insert data into db
         User.create(userData, function(error, user) {

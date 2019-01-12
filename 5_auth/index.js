@@ -2,8 +2,22 @@ var express = require('express');
 var app = express();
 var body_parser = require('body-parser');
 
+// Mongoose setup
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/auth_test');
+var db = mongoose.connection;
+
+//handle mongo error
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  console.log("connected to mongodb!");
+  // we're connected!
+});
+
+// == end of mongoose ==
+
 app.use(body_parser.json());
-app.use(body_parser.urlencoded( { extended: true } ));
+app.use(body_parser.urlencoded( { extended: false } ));
 
 // serve static files from /public
 app.use(express.static(__dirname + '/template'));
@@ -31,5 +45,5 @@ app.use('/', routes);
 
 // listen on port 3000
 app.listen(3003, function () {
-  console.log('Express app listening on port 3000');
+  console.log('Express app listening on port 3003');
 });
