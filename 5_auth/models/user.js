@@ -38,5 +38,40 @@ UserSchema.pre('save', function(next) {
   })
 });
 
+
+// static authenticate method
+UserSchema.statics.authenticate = function(email, password, callback) {
+  User.findOne({ email: email })
+    .exec(function (err, user) {
+      if (err) {
+        return callback(err)
+      } else if (!user) {
+        var err = new Error('User not found');
+        err.status = 401;
+        return callback(err);
+      }
+      bcrypt.compare(password, user.password, function(err, result) {
+        if (err) return callback(err);
+        callback(null, result);
+          // if (result) {
+          //   return callback(null, user);
+          // } else {
+          //   return callback();
+          // }
+      })
+    });
+}
+
+// another way
+UserSchema.methods.comparePassword = function(inputPassword, callback) {
+  console.log("input: ", inputPassword);
+  console.log("this: ", this.password);
+  bcrypt.compare(inputPassword, this.password, function(err, isMatch) {
+    if (err) return callback(err);
+    console.log(err, isMatch);
+    callback(null, isMatch);
+  });
+}
+
 var User = mongoose.model('User', UserSchema);
 module.exports = User;

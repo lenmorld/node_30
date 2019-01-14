@@ -15,8 +15,8 @@ router.get('/json', function(req, res, next) {
   }));
 });
 
-// POST route for updating data
-router.post('/', function(req, res, next) {
+// POST - register user
+router.post('/register', function(req, res, next) {
   console.log(req.body);
   // confirm password
   if (req.body.password !== req.body.passwordConf) {
@@ -51,6 +51,23 @@ router.post('/', function(req, res, next) {
           }
         });
       }
+});
+
+// POST - login
+router.post('/login', function(req, res, next) {
+  var username = req.body.username;
+  // console.log(req.body);
+  User.findOne({ username: username }, function(err, user) {
+    console.log("Found: ", user);
+
+    user.comparePassword(req.body.password, function(err, isMatch) {
+      if (err) {
+        return next(err);
+      }
+      console.log(req.body.password, isMatch);
+      return res.send(username + " is logged in successfully ");
+    });
+  })
 });
 
 

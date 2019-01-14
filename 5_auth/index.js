@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var body_parser = require('body-parser');
+var session = require('express-session');
 
 // Mongoose setup
 var mongoose = require('mongoose');
@@ -15,6 +16,8 @@ db.once('open', function() {
 });
 
 // == end of mongoose ==
+
+// TODO: SESSIONS to track logins
 
 app.use(body_parser.json());
 app.use(body_parser.urlencoded( { extended: false } ));
