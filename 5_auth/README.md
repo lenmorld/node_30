@@ -32,8 +32,7 @@ but stored server-side
 
 **login/ - compare input password with stored hashed password **
 
-![](2019-01-13-20-51-36.png)
-
+![](2019-01-13-21-21-14.png)
 
 
 ## cookies vs local storage vs session storage

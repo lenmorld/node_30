@@ -56,17 +56,17 @@ router.post('/register', function(req, res, next) {
 // POST - login
 router.post('/login', function(req, res, next) {
   var username = req.body.username;
-  // console.log(req.body);
-  User.findOne({ username: username }, function(err, user) {
-    console.log("Found: ", user);
 
-    user.comparePassword(req.body.password, function(err, isMatch) {
-      if (err) {
-        return next(err);
-      }
-      console.log(req.body.password, isMatch);
+  User.authenticate(username, req.body.password, function(error, isMatch) {
+    console.log("body:", req.body.password, isMatch);
+    console.log(error);
+    console.log(isMatch);
+    if (isMatch) {
       return res.send(username + " is logged in successfully ");
-    });
+    }
+    else {
+      return res.send("login unsuccessful " + error);
+    }
   })
 });
 
