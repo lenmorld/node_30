@@ -45,9 +45,13 @@ router.post('/register', function(req, res, next) {
           if (error) {
             return next(error);
           } else {
+            console.log(user);
             // === SET SESSION DETAILS ===
-            // req.session.userId = user.id;
-            return res.redirect('/profile');
+            // TODO: set _id from login, not register
+            // req.session.userId = user._id;
+
+            return res.send(user.username + " is registered ✅");
+            // return res.redirect('/profile');
           }
         });
       }
@@ -57,12 +61,15 @@ router.post('/register', function(req, res, next) {
 router.post('/login', function(req, res, next) {
   var username = req.body.username;
 
-  User.authenticate(username, req.body.password, function(error, isMatch) {
+  User.authenticate(username, req.body.password, function(error, isMatch, userId) {
     console.log("body:", req.body.password, isMatch);
     console.log(error);
     console.log(isMatch);
-    if (isMatch) {
-      return res.send(username + " is logged in successfully ");
+    if (isMatch, userId) {
+      // === SET SESSION DETAILS ===
+      // TODO: set usdeId from login
+      req.session.userId = userId;
+      return res.send(username + " is logged in successfully, with session.userId " + req.session.userId );
     }
     else {
       return res.send("login unsuccessful " + error);
@@ -70,5 +77,23 @@ router.post('/login', function(req, res, next) {
   })
 });
 
+
+// GET - logout
+router.get('/logout', function(req, res, next) {
+  if (req.session) {
+    // delete session object
+    req.session.destroy(function(err) {
+      if (err) {
+        return next(err);
+      } else {
+        // req.session is deleted
+
+        console.log("Successful logout");
+        return res.send("LOGGED OUT");
+        // return res.redirect('/');
+      }
+    });
+  }
+});
 
 module.exports = router;

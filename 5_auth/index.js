@@ -17,7 +17,12 @@ db.once('open', function() {
 
 // == end of mongoose ==
 
-// TODO: SESSIONS to track logins
+// SESSIONS to track logins
+app.use(session({
+  secret: 'work hard',
+  resave: true,
+  saveUninitialized: false
+}));
 
 app.use(body_parser.json());
 app.use(body_parser.urlencoded( { extended: false } ));
