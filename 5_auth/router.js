@@ -1,12 +1,42 @@
 var express = require('express');
 var router = express.Router();
-var User = require('../models/user');
+var bodyParser = require('body-parser')
+
+var User = require('./models/user');
+
+// form parser
+// create application/x-www-form-urlencoded parser
+// var urlencodedParser = bodyParser.urlencoded({ extended: false })
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({
+    extended: true
+}));
+
 
 // GET /
 router.get('/', function(req, res, next) {
   // console.log(req);
-  return res.send("working");
+  // return res.send("working");
+  // res.sendFile(__dirname + "/public/index.html");
+  res.render("index");
 });
+
+router.get('/login_page', function(req, res, next) {
+  // res.sendFile(__dirname + "/public/login.html");
+  res.render("login");
+});
+
+router.get('/register_page', function(req, res, next) {
+  // res.sendFile(__dirname + "/public/register.html");
+  res.render("register");
+});
+
+router.get('/secret_page', function(req, res, next) {
+  // res.sendFile(__dirname + "/public/secret.html");
+  res.render("secret");
+});
+
+// ===============
 
 router.get('/json', function(req, res, next) {
   // console.log(req);
@@ -17,7 +47,7 @@ router.get('/json', function(req, res, next) {
 
 // POST - register user
 router.post('/register', function(req, res, next) {
-  console.log(req.body);
+  console.log("register" + req.body.email);
   // confirm password
   if (req.body.password !== req.body.passwordConf) {
     var err = new Error('Passwords do not match');
@@ -50,8 +80,8 @@ router.post('/register', function(req, res, next) {
             // TODO: set _id from login, not register
             // req.session.userId = user._id;
 
-            return res.send(user.username + " is registered ✅");
-            // return res.redirect('/profile');
+            // return res.send(user.username + " is registered ✅");
+            return res.redirect('/login_page');
           }
         });
       }
@@ -69,7 +99,10 @@ router.post('/login', function(req, res, next) {
       // === SET SESSION DETAILS ===
       // TODO: set usdeId from login
       req.session.userId = userId;
-      return res.send(username + " is logged in successfully, with session.userId " + req.session.userId );
+      // return res.send(username + " is logged in successfully, with session.userId " + req.session.userId );
+
+      // return res.redirect('/secret_page');
+      return res.render('secret', {user_id: req.session.userId} );
     }
     else {
       return res.send("login unsuccessful " + error);
@@ -89,8 +122,10 @@ router.get('/logout', function(req, res, next) {
         // req.session is deleted
 
         console.log("Successful logout");
-        return res.send("LOGGED OUT");
+        // return res.send("LOGGED OUT");
+
         // return res.redirect('/');
+        return res.render('index');
       }
     });
   }

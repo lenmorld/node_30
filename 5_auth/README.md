@@ -35,6 +35,13 @@ but stored server-side
 ![](2019-01-13-21-21-14.png)
 
 
+**Login, Register Views**
+
+
+========================================================
+
+# EXTRAS
+
 ## cookies vs local storage vs session storage
 
 ## cookies
