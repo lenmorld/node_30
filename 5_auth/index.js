@@ -3,6 +3,15 @@ var app = express();
 var body_parser = require('body-parser');
 var session = require('express-session');
 
+// set the view engine to ejs
+app.set('view engine', 'ejs');
+
+// 'views' folder served by default, when using render()
+
+// serve static files from /public
+// app.use(express.static(__dirname + '/public'));
+
+
 // Mongoose setup
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/auth_test');
@@ -27,11 +36,9 @@ app.use(session({
 app.use(body_parser.json());
 app.use(body_parser.urlencoded( { extended: false } ));
 
-// serve static files from /public
-app.use(express.static(__dirname + '/template'));
 
 // include routes
-var routes = require('./routes/router');
+var routes = require('./router');
 app.use('/', routes);
 
 // // catch 404 and forward to error handler
