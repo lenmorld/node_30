@@ -33,8 +33,10 @@ app.use(session({
   saveUninitialized: false
 }));
 
-app.use(body_parser.json());
+// parse form data - application/x-www-form-urlencoded
 app.use(body_parser.urlencoded( { extended: false } ));
+// parse application/json
+app.use(body_parser.json());
 
 
 // include routes

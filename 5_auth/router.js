@@ -4,15 +4,6 @@ var bodyParser = require('body-parser')
 
 var User = require('./models/user');
 
-// form parser
-// create application/x-www-form-urlencoded parser
-// var urlencodedParser = bodyParser.urlencoded({ extended: false })
-router.use(bodyParser.json());
-router.use(bodyParser.urlencoded({
-    extended: true
-}));
-
-
 // GET /
 router.get('/', function(req, res, next) {
   // console.log(req);

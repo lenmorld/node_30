@@ -29,6 +29,13 @@ switched to db auth_test
 * Session data is not saved in the cookie itself,
 but stored server-side
 
+- This module directly reads and writes cookies on req/res
+- **MORE ABSTRACT**
+- let's try to use simpler cookie-based auth
+
+## cookie-session
+
+
 
 **login/ - compare input password with stored hashed password **
 
