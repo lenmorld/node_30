@@ -84,6 +84,10 @@ ref: https://stackoverflow.com/questions/46859103/how-can-i-access-cookie-sessio
 
 ![](2019-01-16-00-28-43.png)
 
+all session data stored in cookies (since we're using `cookie-session`)
+
+![](2019-01-16-00-31-56.png)
+
 ========================================================
 
 # EXTRAS

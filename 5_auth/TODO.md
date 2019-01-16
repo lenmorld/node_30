@@ -15,6 +15,8 @@
 	- ![](2019-01-14-23-08-04.png)
 
 
-[ ] - URL is /login, even though in SECRET page
+[G] - URL is /login, even though in SECRET page
+
+[H] - track number of unsuccesful login attemtps
 
 ![](2019-01-16-00-11-13.png)
