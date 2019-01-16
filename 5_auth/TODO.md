@@ -1,6 +1,12 @@
 [ ] allow both JSON and form inputs in /login, /register routes
 
-[ ] block /secret_page when not logged in
+[-] block /secret_page when not logged in
+
+	Options:
+
+	- [G] check session.userId on `/secret_page`, 
+			render `secret` if set, 
+			else render `login`
 
 	- [ ] could use `requiresLogin` middleware here: https://medium.com/createdd-notes/starting-with-authentication-a-tutorial-with-node-js-and-mongodb-25d524ca0359
 

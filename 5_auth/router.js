@@ -14,6 +14,8 @@ router.get('/', function(req, res, next) {
 
 router.get('/login_page', function(req, res, next) {
   // res.sendFile(__dirname + "/public/login.html");
+
+  // TODO: track unsuccessful login attempts
   res.render("login");
 });
 
@@ -24,7 +26,16 @@ router.get('/register_page', function(req, res, next) {
 
 router.get('/secret_page', function(req, res, next) {
   // res.sendFile(__dirname + "/public/secret.html");
-  res.render("secret");
+
+  if (req.session.userId) {
+    // render secret_page and pass session data
+    res.render('secret', {user_id: req.session.userId, views: req.session.views} );
+  } else {
+    // NOT LOGGED IN YET, redirect to /login
+    res.redirect('/login_page');
+  }
+
+  // res.render("secret");
 });
 
 // ===============
@@ -96,11 +107,13 @@ router.post('/login', function(req, res, next) {
 
       // return res.send(username + " is logged in successfully, with session.userId " + req.session.userId );
 
-      // return res.redirect('/secret_page');
-      return res.render('secret', {user_id: req.session.userId, views: req.session.views} );
+      // better to redirect, then render the secret page from that redirect
+      return res.redirect('/secret_page');
+      // return res.render('secret', {user_id: req.session.userId, views: req.session.views} );
     }
     else {
-      return res.send("login unsuccessful " + error);
+      return res.redirect('/login_page');
+      // return res.send("login unsuccessful " + error);
     }
   })
 });
