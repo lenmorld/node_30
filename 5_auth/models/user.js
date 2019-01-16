@@ -50,19 +50,24 @@ UserSchema.statics.authenticate = function(username, password, callback) {
       var err = new Error('User not found');
       err.status = 401;
       callback(err);
+    } else if (user) {
+      console.log("Found: ", user);
+      console.log("input: ", password);
+      console.log("this: ", user.password);
+      bcrypt.compare(password, user.password, function(err2, isMatch) {
+        if (isMatch) {
+          callback(null, isMatch, user._id);
+        } else {
+          var err = new Error('User not found');
+          err.status = 401;
+          callback(err);
+        }
+      });
+    } else {
+      var err = new Error('Unknown server error');
+      err.status = 401;
+      callback(err);
     }
-    console.log("Found: ", user);
-    console.log("input: ", password);
-    console.log("this: ", user.password);
-    bcrypt.compare(password, user.password, function(err2, isMatch) {
-      if (isMatch) {
-        callback(null, isMatch, user._id);
-      } else {
-        var err = new Error('User not found');
-        err.status = 401;
-        callback(err);
-      }
-    });
   });
 }
 

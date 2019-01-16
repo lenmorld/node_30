@@ -1,7 +1,8 @@
 var express = require('express');
 var app = express();
 var body_parser = require('body-parser');
-var session = require('express-session');
+// var session = require('express-session');
+var cookieSession = require('cookie-session')
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
@@ -26,12 +27,23 @@ db.once('open', function() {
 
 // == end of mongoose ==
 
-// SESSIONS to track logins
-app.use(session({
-  secret: 'work hard',
-  resave: true,
-  saveUninitialized: false
+// == SESSIONS config  to track logins ==
+// > express-session
+// app.use(session({
+//   secret: 'work hard',
+//   resave: true,
+//   saveUninitialized: false
+// }));
+
+// > cookie-session
+app.set('trust proxy', 1) // trust first proxy
+app.use(cookieSession({
+  name: 'session', 
+  secret: 'secret_key',         // use 1 secret or keys array
+  // keys: ['key1', 'key2'],    // always use keys[0] for signing cookies, others are used for verification
+  httpOnly: true,   // false allows access using `document.cookie` but is not secure
 }));
+
 
 // parse form data - application/x-www-form-urlencoded
 app.use(body_parser.urlencoded( { extended: false } ));

@@ -68,7 +68,7 @@ router.post('/register', function(req, res, next) {
           } else {
             console.log(user);
             // === SET SESSION DETAILS ===
-            // TODO: set _id from login, not register
+            // set _id from login, not register
             // req.session.userId = user._id;
 
             // return res.send(user.username + " is registered ✅");
@@ -88,12 +88,16 @@ router.post('/login', function(req, res, next) {
     console.log(isMatch);
     if (isMatch, userId) {
       // === SET SESSION DETAILS ===
-      // TODO: set usdeId from login
+      // set session userId after succssful login
       req.session.userId = userId;
+
+      // count number of views
+      req.session.views = (req.session.views || 0) + 1;
+
       // return res.send(username + " is logged in successfully, with session.userId " + req.session.userId );
 
       // return res.redirect('/secret_page');
-      return res.render('secret', {user_id: req.session.userId} );
+      return res.render('secret', {user_id: req.session.userId, views: req.session.views} );
     }
     else {
       return res.send("login unsuccessful " + error);
@@ -105,20 +109,30 @@ router.post('/login', function(req, res, next) {
 // GET - logout
 router.get('/logout', function(req, res, next) {
   if (req.session) {
+
+    // TODO: try-catch here
+    // destroy cookie-session
+    req.session = null;
+
+    console.log("Successful logout");
+    // return res.send("LOGGED OUT");
+
+    // return res.redirect('/');
+    return res.render('index');
+
     // delete session object
-    req.session.destroy(function(err) {
-      if (err) {
-        return next(err);
-      } else {
-        // req.session is deleted
+    // req.session.destroy(function(err) {
+    //   if (err) {
+    //     return next(err);
+    //   } else {
+    //     // req.session is deleted
+    //     console.log("Successful logout");
+    //     // return res.send("LOGGED OUT");
 
-        console.log("Successful logout");
-        // return res.send("LOGGED OUT");
-
-        // return res.redirect('/');
-        return res.render('index');
-      }
-    });
+    //     // return res.redirect('/');
+    //     return res.render('index');
+    //   }
+    // });
   }
 });
 
