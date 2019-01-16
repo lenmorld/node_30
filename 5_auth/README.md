@@ -80,6 +80,10 @@ ref: https://stackoverflow.com/questions/46859103/how-can-i-access-cookie-sessio
 
 **adding num of views for logged-in user**
 
+**H. tracking number of unsuccessful attempts**
+
+![](2019-01-16-00-28-43.png)
+
 ========================================================
 
 # EXTRAS

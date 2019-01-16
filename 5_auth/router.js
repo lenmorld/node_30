@@ -16,7 +16,7 @@ router.get('/login_page', function(req, res, next) {
   // res.sendFile(__dirname + "/public/login.html");
 
   // TODO: track unsuccessful login attempts
-  res.render("login");
+  res.render("login", {login_attempts: req.session.login_attempts});
 });
 
 router.get('/register_page', function(req, res, next) {
@@ -112,6 +112,9 @@ router.post('/login', function(req, res, next) {
       // return res.render('secret', {user_id: req.session.userId, views: req.session.views} );
     }
     else {
+      // track unsuccessful attempts
+      req.session.login_attempts = (req.session.login_attempts || 0) + 1;
+
       return res.redirect('/login_page');
       // return res.send("login unsuccessful " + error);
     }
