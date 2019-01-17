@@ -1,6 +1,6 @@
 [ ] allow both JSON and form inputs in /login, /register routes
 
-[-] block /secret_page when not logged in
+[/] block /secret_page when not logged in
 
 	Options:
 
@@ -8,9 +8,9 @@
 			render `secret` if set, 
 			else render `login`
 
-	- [ ] could use `requiresLogin` middleware here: https://medium.com/createdd-notes/starting-with-authentication-a-tutorial-with-node-js-and-mongodb-25d524ca0359
+	- [I] use middleware to require login, like used here: https://medium.com/createdd-notes/starting-with-authentication-a-tutorial-with-node-js-and-mongodb-25d524ca0359
 
-	- [ ] don't show `user_id` to prevent page load error
+	- [G] don't show `user_id` to prevent page load error
 
 	- ![](2019-01-14-23-08-04.png)
 
@@ -19,4 +19,8 @@
 
 [H] - track number of unsuccesful login attemtps
 
-![](2019-01-16-00-11-13.png)
+![](./screens/2019-01-16-00-11-13.png)
+
+[ ] - use templates for the Navbar, and include in all pages
+
+[ ] - user express-session instead of cookie-session, and verify that no session data is sent to the browser

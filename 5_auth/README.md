@@ -25,16 +25,16 @@ switched to db auth_test
 
 **login/ - compare input password with stored hashed password **
 
-![](2019-01-13-21-21-14.png)
+![](./screens/2019-01-13-21-21-14.png)
 
 
 **Login, Register Views**
 
-![](2019-01-14-23-04-42.png)
+![](./screens/2019-01-14-23-04-42.png)
 
-![](2019-01-14-23-05-00.png)
+![](./screens/2019-01-14-23-05-00.png)
 
-![](2019-01-14-23-05-13.png)
+![](./screens/2019-01-14-23-05-13.png)
 
 ## express-session
 
@@ -64,7 +64,7 @@ app.use(cookieSession({
 cookies set in the browser side, includes `session_id` and some data
 (less secure)
 
-![](2019-01-16-00-00-46.png)
+![](./screens/2019-01-16-00-00-46.png)
 
 the values are base-64ed
 
@@ -82,11 +82,11 @@ ref: https://stackoverflow.com/questions/46859103/how-can-i-access-cookie-sessio
 
 **H. tracking number of unsuccessful attempts**
 
-![](2019-01-16-00-28-43.png)
+![](./screens/2019-01-16-00-28-43.png)
 
 all session data stored in cookies (since we're using `cookie-session`)
 
-![](2019-01-16-00-31-56.png)
+![](./screens/2019-01-16-00-31-56.png)
 
 ========================================================
 
@@ -101,7 +101,7 @@ regular cookies in the browser
 in console: 
 `document.cookie = "username=John Doe"`
 * this is not persisted between refreshes
-![](2019-01-13-20-00-52.png)
+![](./screens/2019-01-13-20-00-52.png)
 
 ## local storage 
 `localStorage.setItem('name', 'lenny')`
