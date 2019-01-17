@@ -24,6 +24,7 @@ router.get('/register_page', function(req, res, next) {
   res.render("register");
 });
 
+
 router.get('/secret_page', function(req, res, next) {
   // res.sendFile(__dirname + "/public/secret.html");
 
@@ -36,6 +37,23 @@ router.get('/secret_page', function(req, res, next) {
   }
 
   // res.render("secret");
+});
+
+// same with /secret_page, but using a middleware to require login
+function requiresLogin(req, res, next) {
+  if (req.session.userId) {
+    return next();
+  } else {
+    var err = new Error('You must be logged in to view this page.');
+    err.status = 401;
+    // return next(err);  // send a nasty error to frontend
+    return res.redirect('/login_page');
+  }
+}
+
+router.get('/secret_page_2', requiresLogin, function(req, res, next) {
+  // it only arrives here if successfully logged in
+  res.render('secret', {user_id: req.session.userId, views: req.session.views} );
 });
 
 // ===============
