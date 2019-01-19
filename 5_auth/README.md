@@ -92,6 +92,11 @@ all session data stored in cookies (since we're using `cookie-session`)
 
 # EXTRAS
 
+## simpler session-based auth, without
+
+https://www.codementor.io/mayowa.a/how-to-build-a-simple-session-based-authentication-system-with-nodejs-from-scratch-6vn67mcy3
+
+
 ## cookies vs local storage vs session storage
 
 ## cookies
@@ -109,5 +114,26 @@ in console:
 `localStorage.getItem('name')		// lenny`
 
 
+## FURTHER reading:
+
+express-session: better than cookie-session
+https://www.npmjs.com/package/express-session
+
+Different types of auth
+
+https://softwareengineering.stackexchange.com/questions/350092/cookie-based-vs-session-vs-token-based-vs-claims-based-authentications
 
 
+Templating using EJS
+
+https://scotch.io/tutorials/use-ejs-to-template-your-node-application
+
+
+Security risks of using `body-parser` and avoiding CSRF
+
+https://fosterelli.co/dangerous-use-of-express-body-parser.html'
+
+
+Basic auth with Node and mongodb
+
+https://medium.com/createdd-notes/starting-with-authentication-a-tutorial-with-node-js-and-mongodb-25d524ca0359
