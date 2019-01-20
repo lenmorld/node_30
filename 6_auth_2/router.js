@@ -1,14 +1,17 @@
 var express = require('express');
 var router = express.Router();
+var jwt = require('jsonwebtoken');
 
 var User = require('./models/user');
 
 router.get('/', function(req, res, next) {
+  // res.json({message: "Express is up!"});
   res.render("index");
 });
 
 router.get('/login_page', function(req, res, next) {
-  res.render("login", {login_attempts: req.session.login_attempts});
+  // res.render("login", {login_attempts: req.session.login_attempts});
+  res.render("login", {login_attempts: 0});
 });
 
 router.get('/register_page', function(req, res, next) {
@@ -76,24 +79,56 @@ router.post('/register', function(req, res, next) {
 });
 
 // POST - login
-router.post('/login', function(req, res, next) {
-  var username = req.body.username;
+router.post("/login", function(req, res) {
+  var username, password;
+  if(req.body.username && req.body.password){
+    username = req.body.username;
+    password = req.body.password;
+  }
+  // usually this would be a database call:
+  // var user = users[_.findIndex(users, {name: name})];
+  // var user = users[0];
+  var user = users.filter(function(u) {
+    return u.username === username; 
+  })[0];
+  if( !user ){
+    res.status(401).json({message:"no such user found"});
+  }
 
-  User.authenticate(username, req.body.password, function(error, isMatch, userId) {
-    console.log("body:", req.body.password, isMatch);
-    console.log(error);
-    console.log(isMatch);
-    if (isMatch, userId) {
-      req.session.userId = userId;
-      req.session.views = (req.session.views || 0) + 1;
-      return res.redirect('/secret_page');
-    }
-    else {
-      req.session.login_attempts = (req.session.login_attempts || 0) + 1;
-      return res.redirect('/login_page');
-    }
-  })
+  if (user.password === password) {
+    // identify user by id, which we'll put in the token
+    var payload = { id: user.id };
+    var token = jwt.sign(payload, jwtOptions.secretOrKey);
+
+    res.json({
+      message: "ok",
+      token: token,
+    });
+  } else {
+    res.status(401).json({
+      message: "password does not match the one saved un db"
+    })
+  }
 });
+
+// router.post('/login', function(req, res, next) {
+//   var username = req.body.username;
+
+//   User.authenticate(username, req.body.password, function(error, isMatch, userId) {
+//     console.log("body:", req.body.password, isMatch);
+//     console.log(error);
+//     console.log(isMatch);
+//     if (isMatch, userId) {
+//       req.session.userId = userId;
+//       req.session.views = (req.session.views || 0) + 1;
+//       return res.redirect('/secret_page');
+//     }
+//     else {
+//       req.session.login_attempts = (req.session.login_attempts || 0) + 1;
+//       return res.redirect('/login_page');
+//     }
+//   })
+// });
 
 // GET - logout
 router.get('/logout', function(req, res, next) {

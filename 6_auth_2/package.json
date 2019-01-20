@@ -17,7 +17,10 @@
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
+    "jsonwebtoken": "^8.4.0",
     "mongodb": "^3.1.6",
-    "mongoose": "^5.4.3"
+    "mongoose": "^5.4.3",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0"
   }
 }
