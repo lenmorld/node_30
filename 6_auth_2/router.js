@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var jwt = require('jsonwebtoken');
 
 var User = require('./models/user');
 
@@ -9,38 +8,30 @@ router.get('/', function(req, res, next) {
   res.render("index");
 });
 
-router.get('/login_page', function(req, res, next) {
+router.get('/login', function(req, res, next) {
   // res.render("login", {login_attempts: req.session.login_attempts});
-  res.render("login", {login_attempts: 0});
+  res.render("login_page", {login_attempts: 0});
 });
 
-router.get('/register_page', function(req, res, next) {
-  res.render("register");
-});
-
-router.get('/secret_page', function(req, res, next) {
-  if (req.session.userId) {
-    res.render('secret', {user_id: req.session.userId, views: req.session.views} );
-  } else {
-    res.redirect('/login_page');
-  }
+router.get('/register', function(req, res, next) {
+  res.render("register_page");
 });
 
 // same with /secret_page, but using a middleware to require login
-function requiresLogin(req, res, next) {
-  if (req.session.userId) {
-    return next();
-  } else {
-    var err = new Error('You must be logged in to view this page.');
-    err.status = 401;
-    // return next(err);  // send a nasty error to frontend
-    return res.redirect('/login_page');
-  }
-}
+// function requiresLogin(req, res, next) {
+//   if (req.session.userId) {
+//     return next();
+//   } else {
+//     var err = new Error('You must be logged in to view this page.');
+//     err.status = 401;
+//     // return next(err);  // send a nasty error to frontend
+//     return res.redirect('/login');
+//   }
+// }
 
-router.get('/secret_page_2', requiresLogin, function(req, res, next) {
-  res.render('secret', {user_id: req.session.userId, views: req.session.views} );
-});
+// router.get('/secret2', requiresLogin, function(req, res, next) {
+//   res.render('secret_page', {user_id: req.session.userId, views: req.session.views} );
+// });
 
 // POST - register user
 router.post('/register', function(req, res, next) {
@@ -129,6 +120,26 @@ router.post("/login", function(req, res) {
 //     }
 //   })
 // });
+
+// middleware
+router.get('/secret', 
+passport.authenticate('jwt', { session: false }), 
+  function(req, res, next) {
+    res.json("Success! Check token");
+    // if (req.session.userId) {
+    //   res.render('secret_page', {user_id: req.session.userId, views: req.session.views} );
+    // } else {
+    //   res.redirect('/login');
+    // }
+});
+
+router.get("/secretDebug",
+  function(req, res, next){
+    console.log(req.get('Authorization'));
+    next();
+  }, function(req, res){
+    res.json("debugging");
+});
 
 // GET - logout
 router.get('/logout', function(req, res, next) {

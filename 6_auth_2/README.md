@@ -21,3 +21,16 @@ but a __401 Unauthorized__ response sent
 `ExtractJwt.fromAuthHeaderAsBearerToken()`
 - can replace with other extraction methods, or even write your own
 https://github.com/themikenicholson/passport-jwt
+
+
+
+### working !!! ###
+
+User log-in, gets token
+
+![](screens/2019-01-20-11-16-07.png)
+
+
+Use token to authenticate access to /secret page
+
+![](screens/2019-01-20-11-16-34.png)

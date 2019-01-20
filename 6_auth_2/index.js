@@ -4,12 +4,12 @@ var body_parser = require('body-parser');
 var cookieSession = require('cookie-session');    // or use express-session
 
 // === Passport, JWT ===
-var jwt = require('jsonwebtoken');
-var passport = require('passport');
-var passportJWT = require('passport-jwt');
+jwt = require('jsonwebtoken');
+passport = require('passport');
+passportJWT = require('passport-jwt');
 
-var ExtractJwt = passportJWT.ExtractJwt;
-var JwtStrategy = passportJWT.Strategy;
+ExtractJwt = passportJWT.ExtractJwt;
+JwtStrategy = passportJWT.Strategy;
 
 // TODO remove global vars
 app.set('view engine', 'ejs');
@@ -48,7 +48,7 @@ function jwtStrategyCallback(jwt_payload, next) {
   }
 }
 
-var strategy = new JwtStrategy(jwtOptions, jwtStrategyCallback);
+strategy = new JwtStrategy(jwtOptions, jwtStrategyCallback);
 passport.use(strategy);
 
 app.use(passport.initialize());
@@ -71,7 +71,7 @@ app.use(passport.initialize());
 //   httpOnly: true,
 // }));
 
-app.use(body_parser.urlencoded( { extended: false } )); // parse application/x-www-form-urlencoded
+app.use(body_parser.urlencoded( { extended: true } )); // parse application/x-www-form-urlencoded
 app.use(body_parser.json()); // parse application/json
 
 var routes = require('./router');
