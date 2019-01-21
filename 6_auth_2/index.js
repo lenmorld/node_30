@@ -4,12 +4,12 @@ var body_parser = require('body-parser');
 var cookieSession = require('cookie-session');    // or use express-session
 
 // === Passport, JWT ===
-jwt = require('jsonwebtoken');
-passport = require('passport');
-passportJWT = require('passport-jwt');
+var jwt = require('jsonwebtoken');
+// passport = require('passport');
+// passportJWT = require('passport-jwt');
 
-ExtractJwt = passportJWT.ExtractJwt;
-JwtStrategy = passportJWT.Strategy;
+// ExtractJwt = passportJWT.ExtractJwt;
+// JwtStrategy = passportJWT.Strategy;
 
 // TODO remove global vars
 app.set('view engine', 'ejs');
@@ -27,31 +27,32 @@ users = [
   }
 ];
 
-jwtOptions = {
-  // jwtFromRequest: ExtractJwt.fromAuthHeader(),
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: 'secret',    // NOTE: use a private key if possible
-};
+// jwtOptions = {
+//   // jwtFromRequest: ExtractJwt.fromAuthHeader(),
+//   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+//   // jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme(),   // 'bearer' | 'jwt'
+//   secretOrKey: 'secret',    // NOTE: use a private key if possible
+// };
 
-function jwtStrategyCallback(jwt_payload, next) {
-  console.log('payload received', jwt_payload);
+// function jwtStrategyCallback(jwt_payload, next) {
+//   console.log('payload received', jwt_payload);
 
-  // TODO: database call to find user
-  // var user = users[0];
-  var user = users.filter(function(u) {
-    return u.id === jwt_payload.id; 
-  })[0];
-  if (user) {
-    next(null, user);
-  } else {
-    next(null, false);
-  }
-}
+//   // TODO: database call to find user
+//   // var user = users[0];
+//   var user = users.filter(function(u) {
+//     return u.id === jwt_payload.id; 
+//   })[0];
+//   if (user) {
+//     next(null, user);
+//   } else {
+//     next(null, false);
+//   }
+// }
 
-strategy = new JwtStrategy(jwtOptions, jwtStrategyCallback);
-passport.use(strategy);
+// strategy = new JwtStrategy(jwtOptions, jwtStrategyCallback);
+// passport.use(strategy);
 
-app.use(passport.initialize());
+// app.use(passport.initialize());
 
 // Mongoose setup
 // var mongoose = require('mongoose');

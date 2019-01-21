@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var jwt = require('jsonwebtoken');
 
 var User = require('./models/user');
 
@@ -89,7 +90,8 @@ router.post("/login", function(req, res) {
   if (user.password === password) {
     // identify user by id, which we'll put in the token
     var payload = { id: user.id };
-    var token = jwt.sign(payload, jwtOptions.secretOrKey);
+    // var token = jwt.sign(payload, jwtOptions.secretOrKey);
+    var token = jwt.sign(payload, 'secret');
 
     res.json({
       message: "ok",
@@ -121,11 +123,28 @@ router.post("/login", function(req, res) {
 //   })
 // });
 
-// middleware
+// Passport.js middleware
 router.get('/secret', 
-passport.authenticate('jwt', { session: false }), 
+// passport.authenticate('jwt', { session: false }), 
+function customAuth(req, res, next) {
+  // console.log(req.headers);
+  var token = req.headers['x-access-token'] || req.headers['authorization'];
+  console.log(token);
+  var token_string = token.split("Bearer ")[1];
+  jwt.verify(token_string, 'secret', function(err, decoded) {
+    if (err) {
+      return res.json({
+        message: "Token is not valid"
+      })
+    } else {
+      console.log("Decoded: ", decoded);
+      req.decoded = decoded;  
+      next();
+    }
+  });
+},
   function(req, res, next) {
-    res.json("Success! Check token");
+    res.json("Success! Check token " + JSON.stringify(req.decoded));
     // if (req.session.userId) {
     //   res.render('secret_page', {user_id: req.session.userId, views: req.session.views} );
     // } else {
