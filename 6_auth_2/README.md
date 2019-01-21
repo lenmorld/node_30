@@ -122,7 +122,11 @@ app.get('/secret',
   var token_string = token.split("Bearer ")[1];
 
   jwt.verify(token_string, 'secret', function(err, decoded) {
-      if (err) return res.json({"message": "Token not valid");
+      if (err)  {
+        res.status(401);
+        return res.json({"message": "Token not valid");
+      }
+
       req.decoded = decoded;  
       next();
   },
