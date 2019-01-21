@@ -133,6 +133,7 @@ function customAuth(req, res, next) {
   var token_string = token.split("Bearer ")[1];
   jwt.verify(token_string, 'secret', function(err, decoded) {
     if (err) {
+      res.status(401);
       return res.json({
         message: "Token is not valid"
       })
