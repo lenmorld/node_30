@@ -1,0 +1,18 @@
+{
+  "name": "7_upload_files_to_s3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.1096.0",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3"
+  }
+}
