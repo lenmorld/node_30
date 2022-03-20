@@ -13,6 +13,7 @@
   "dependencies": {
     "aws-sdk": "^2.1096.0",
     "dotenv": "^16.0.0",
-    "express": "^4.17.3"
+    "express": "^4.17.3",
+    "formidable": "^2.0.1"
   }
 }
