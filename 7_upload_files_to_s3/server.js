@@ -2,6 +2,8 @@ const express = require('express')
 const fs = require('fs')
 const AWS = require('aws-sdk')
 
+const { uploadFile } = require('./upload')
+
 require('dotenv').config()
 
 const app = express()
@@ -13,7 +15,9 @@ const s3 = new AWS.S3({
 })
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+//   res.send('Hello World!')
+    console.log(__dirname)
+    res.sendFile(__dirname + '/index.html')
 })
 
 app.get('/upload', (req, res) => {
@@ -46,6 +50,11 @@ app.get('/upload', (req, res) => {
         })
     })
 })
+
+app.post('/upload-image', (req, res) => {
+    // console.log(req)
+    uploadFile(req, res)
+});
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
